@@ -104,10 +104,10 @@ function drawHealthBar(fighter) {
   ctx.fillRect(fighter.x, fighter.y - 20, fighter.health / 2, 10);
 }
 
-function drawHealthPoints(fighter, x, y) {
-  ctx.font = '20px Arial';
-  ctx.fillText(fighter.health, x, y);
-}
+function drawHealthPoints(fighter, x, y, name) {
+    ctx.font = '20px Arial';
+    ctx.fillText(name + ' Health: ' + fighter.health, x, y);
+  }
 
 function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
    
@@ -209,9 +209,10 @@ function draw() {
     // Draw health bars and health points
     drawHealthBar(fighter1);
     drawHealthBar(fighter2);
-    drawHealthPoints(fighter1, 10, 30);
-    drawHealthPoints(fighter2, canvas.width - 50, 30);
-    drawAggressiveness(fighter2, canvas.width - 50, 50); // Draw aggressiveness under health
+    drawHealthPoints(fighter1, 10, 30, 'Fighter 1');
+    drawHealthPoints(fighter2, canvas.width - 200, 30, 'Fighter 2'); // Adjusted position
+    drawAggressiveness(fighter2, canvas.width - 200, 50); // Adjusted position
+  
 
   
     // Draw fighters
