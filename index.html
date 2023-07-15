@@ -9,15 +9,27 @@
   </style>
 </head>
 <body>
+
 <!-- Fighter 1 SVG -->
-<svg id="fighter1SVG" xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="display: none;">
-    <polygon points="0,50 25,0 50,50" fill="blue" />
+<svg id="fighter1SVG" xmlns="http://www.w3.org/2000/svg" width="50" height="100" style="display: none;">
+    <circle cx="25" cy="20" r="20" fill="blue" /> <!-- Head -->
+    <rect x="15" y="40" width="20" height="30" fill="blue" /> <!-- Body -->
+    <line x1="15" y1="70" x2="0" y2="100" stroke="blue" stroke-width="10"/> <!-- Left leg -->
+    <line x1="35" y1="70" x2="50" y2="100" stroke="blue" stroke-width="10"/> <!-- Right leg -->
+    <line x1="15" y1="40" x2="0" y2="60" stroke="blue" stroke-width="10"/> <!-- Left arm -->
+    <line x1="35" y1="40" x2="50" y2="60" stroke="blue" stroke-width="10"/> <!-- Right arm -->
   </svg>
   
   <!-- Fighter 2 SVG -->
-  <svg id="fighter2SVG" xmlns="http://www.w3.org/2000/svg" width="50" height="50" style="display: none;">
-    <polygon points="0,50 25,0 50,50" fill="red" />
+  <svg id="fighter2SVG" xmlns="http://www.w3.org/2000/svg" width="50" height="100" style="display: none;">
+    <circle cx="25" cy="20" r="20" fill="red" /> <!-- Head -->
+    <rect x="15" y="40" width="20" height="30" fill="red" /> <!-- Body -->
+    <line x1="15" y1="70" x2="0" y2="100" stroke="red" stroke-width="10"/> <!-- Left leg -->
+    <line x1="35" y1="70" x2="50" y2="100" stroke="red" stroke-width="10"/> <!-- Right leg -->
+    <line x1="15" y1="40" x2="0" y2="60" stroke="red" stroke-width="10"/> <!-- Left arm -->
+    <line x1="35" y1="40" x2="50" y2="60" stroke="red" stroke-width="10"/> <!-- Right arm -->
   </svg>
+  
   
 
   <canvas id="gameCanvas" width="800" height="600"></canvas>
