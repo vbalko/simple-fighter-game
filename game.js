@@ -139,32 +139,38 @@ function drawHealthPoints(fighter, x, y, name) {
     } 
   }
   
-function checkForPunch(fighter1, fighter2) {
-    if (fighter1.punching && !fighter1.punchResolved && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
-      // Only allow the punch to land if both fighters are on the ground or both are in the air
-      if ((fighter1.onGround && fighter2.onGround) || (!fighter1.onGround && !fighter2.onGround)) {
-        fighter2.x += 10;  // Move fighter2 to the right
-        fighter2.health -= 10;  // Reduce fighter2's health
-        fighter1.punchResolved = true;
-        if (fighter2.health <= 0) {
-          fighter2.dead = true;
-          gameOver = true;
+  function checkForPunch(fighter1, fighter2) {
+    if (fighter1.punching && !fighter1.punchResolved) {
+        // Only allow the punch to land if both fighters are on the ground or both are in the air
+        if ((fighter1.onGround && fighter2.onGround) || (!fighter1.onGround && !fighter2.onGround)) {
+            if (Math.abs(fighter1.x - fighter2.x) < punchDistance && Math.abs(fighter1.y - fighter2.y) < fighter1.height) {
+                fighter2.x += 10;  // Move fighter2 to the right
+                fighter2.health -= 10;  // Reduce fighter2's health
+                fighter1.punchResolved = true;
+                if (fighter2.health <= 0) {
+                    fighter2.dead = true;
+                    gameOver = true;
+                }
+            }
         }
-      }
     }
-    if (fighter2.punching && !fighter2.punchResolved && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
-      // Only allow the punch to land if both fighters are on the ground or both are in the air
-      if ((fighter1.onGround && fighter2.onGround) || (!fighter1.onGround && !fighter2.onGround)) {
-        fighter1.x -= 10;  // Move fighter1 to the left
-        fighter1.health -= 10;  // Reduce fighter1's health
-        fighter2.punchResolved = true;
-        if (fighter1.health <= 0) {
-          fighter1.dead = true;
-          gameOver = true;
+    if (fighter2.punching && !fighter2.punchResolved) {
+        // Only allow the punch to land if both fighters are on the ground or both are in the air
+        if ((fighter1.onGround && fighter2.onGround) || (!fighter1.onGround && !fighter2.onGround)) {
+            if (Math.abs(fighter2.x - fighter1.x) < punchDistance && Math.abs(fighter2.y - fighter1.y) < fighter2.height) {
+                fighter1.x -= 10;  // Move fighter1 to the left
+                fighter1.health -= 7;  // Reduce fighter1's health
+                fighter2.punchResolved = true;
+                if (fighter1.health <= 0) {
+                    fighter1.dead = true;
+                    gameOver = true;
+                }
+            }
         }
-      }
     }
-  }
+}
+
+
   
 
 function restartGame() {
@@ -194,12 +200,62 @@ function drawAggressiveness(fighter, x, y) {
     ctx.fillText('Aggressiveness: ' + healthBasedAggressiveness.toFixed(2), x, y);
   }
   
+// Define star positions and colors
+let stars = [];
+for (let i = 0; i < 10; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * (canvas.height - 60),
+        r: Math.random() * 255,
+        g: Math.random() * 255,
+        b: Math.random() * 255
+    });
+}
 
+function drawBackground(ctx) {
+    // Create sky gradient
+    var skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height - 60);
+    skyGradient.addColorStop(0, '#00008b'); // Dark blue at the top of the sky
+    skyGradient.addColorStop(1, '#8b0000'); // Dark red at the horizon
+
+    // Draw sky
+    ctx.fillStyle = skyGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height - 60);
+
+    // Draw stars
+    for (let star of stars) {
+        ctx.fillStyle = `rgb(${star.r}, ${star.g}, ${star.b})`; // Star color
+        ctx.fillRect(star.x, star.y, 5, 5); // Each star is a larger 5x5 rectangle
+
+        // Update star color for next frame
+        star.r = Math.random() * 255;
+        star.g = Math.random() * 255;
+        star.b = Math.random() * 255;
+    }
+
+    // Draw sun
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, canvas.height - 60, 50, 0, Math.PI * 2, false);
+    ctx.fillStyle = '#ffbb00'; // Sun color
+    ctx.fill();
+
+    // Draw ground
+    ctx.fillStyle = '#663300'; // Ground color
+    ctx.fillRect(0, canvas.height - 60, canvas.width, 60);
+
+    // Draw clouds and birds here
+    // Note: You'll need images or more complex shapes for these
+}
+
+
+  
 // Draw function
 function draw() {
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   
+    drawBackground(ctx);
+
     // Draw health bars and health points
     drawHealthBar(fighter1);
     drawHealthBar(fighter2);

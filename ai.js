@@ -29,12 +29,12 @@ function updateFighter2AI(fighter1, fighter2) {
   
     // If fighter1 is punching and fighter2 is on the ground, there's a chance fighter2 will jump to avoid the punch
     if (fighter1.punching && fighter2.onGround && Math.random() < 0.3) { // Lowered chance to jump
-      fighter2.jump();
+      //fighter2.jump();
     }
   
     // If fighter1 is in the air and fighter2 is on the ground, there's a chance fighter2 will jump to match fighter1's height
     if (!fighter1.onGround && fighter2.onGround && Math.random() < 0.3) { // Lowered chance to jump
-      fighter2.jump();
+      //fighter2.jump();
     }
   }
   
