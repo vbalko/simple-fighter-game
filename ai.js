@@ -1,4 +1,3 @@
-// AI for fighter2
 function updateFighter2AI(fighter1, fighter2) {
     if (Math.abs(fighter1.x - fighter2.x) < punchDistance) {
       if (Math.random() < fighter2.aggressiveness / 10) {
@@ -7,12 +6,10 @@ function updateFighter2AI(fighter1, fighter2) {
     }
   
     if (Math.abs(fighter1.x - fighter2.x) < punchDistance * 2) {
-      if (fighter1.x < fighter2.x && fighter2.x - speed > fighter1.x + fighter1.width) {
+      if (fighter1.x < fighter2.x) {
         fighter2.dx = -speed;
-      } else if (fighter2.x + fighter2.width + speed < fighter1.x) {
-        fighter2.dx = speed;
       } else {
-        fighter2.dx = 0;
+        fighter2.dx = speed;
       }
     } else {
       // This part makes the AI move back and forth randomly
@@ -24,4 +21,15 @@ function updateFighter2AI(fighter1, fighter2) {
         fighter2.dx = 0;  // Stop moving
       }
     }
+  
+    // If fighter1 is punching and fighter2 is on the ground, there's a chance fighter2 will jump to avoid the punch
+    if (fighter1.punching && fighter2.onGround && Math.random() < 0.5) {
+      fighter2.jump();
+    }
+  
+    // If fighter1 is in the air and fighter2 is on the ground, there's a chance fighter2 will jump to match fighter1's height
+    if (!fighter1.onGround && fighter2.onGround && Math.random() < 0.5) {
+      fighter2.jump();
+    }
   }
+  
