@@ -69,16 +69,26 @@ function updateFighterPosition(fighter, leftKey, rightKey) {
 }
 
 function checkForPunch(fighter1, fighter2) {
-  if (fighter1.punching && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
-    fighter2.x += 10;  // Move fighter2 back a bit
-    fighter2.health -= 10;  // Reduce fighter2's health
-    if (fighter2.health <= 0) {
-      fighter2.dead = true;
-      gameOver = true;
+    if (fighter1.punching && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
+      fighter2.x += 10;  // Move fighter2 to the right
+      fighter2.health -= 10;  // Reduce fighter2's health
+      if (fighter2.health <= 0) {
+        fighter2.dead = true;
+        gameOver = true;
+      }
     }
+    if (fighter2.punching && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
+      fighter1.x -= 10;  // Move fighter1 to the left
+      fighter1.health -= 10;  // Reduce fighter1's health
+      if (fighter1.health <= 0) {
+        fighter1.dead = true;
+        gameOver = true;
+      }
+    }
+    fighter1.punching = false;
+    fighter2.punching = false;
   }
-  fighter1.punching = false;
-}
+  
 
 function restartGame() {
   fighter1.health = 100;
