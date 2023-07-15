@@ -134,21 +134,9 @@ function update() {
       updateFighterPosition(fighter1, KEY_A, KEY_D);
     }
   
-    // Simple AI for fighter2
+    // AI for fighter2
     if (!gameOver) {
-      var distance = fighter2.x - fighter1.x;
-      var minDistance = 80;  // Minimum distance fighter2 tries to keep from fighter1
-      if (distance < minDistance) {
-        fighter2.dx = speed;  // Move to the right
-      } else if (distance > minDistance) {
-        fighter2.dx = -speed;  // Move to the left
-      } else {
-        fighter2.dx = 0;
-      }
-      // Randomly throw punches
-      if (Math.random() < 0.01) {
-        fighter2.punch();
-      }
+      updateFighter2AI(fighter1, fighter2);
     }
   
     // Apply changes to the fighter's positions
@@ -162,8 +150,7 @@ function update() {
     // Check for punches
     checkForPunch(fighter1, fighter2);
     checkForPunch(fighter2, fighter1);
-  }
-  
+  }  
 
 // Game loop
 function gameLoop() {
