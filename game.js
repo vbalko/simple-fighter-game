@@ -25,6 +25,10 @@ function Fighter(x, color) {
 var fighter1 = new Fighter(100, 'blue');
 var fighter2 = new Fighter(300, 'red');
 
+fighter2.aggressiveness = Math.random() * 10;  // Initialize to a random value between 0 and 10
+
+
+
 // Game variables
 var keys = {};
 var gameOver = false;
@@ -90,15 +94,18 @@ function checkForPunch(fighter1, fighter2) {
   }
   
 
-function restartGame() {
-  fighter1.health = 100;
-  fighter1.dead = false;
-  fighter1.x = 100;
-  fighter2.health = 100;
-  fighter2.dead = false;
-  fighter2.x = 300;
-  gameOver = false;
-}
+  function restartGame() {
+    // Reset fighters
+    fighter1.health = 100;
+    fighter1.dead = false;
+    fighter1.x = 100;
+    fighter2.health = 100;
+    fighter2.dead = false;
+    fighter2.x = 300;
+    fighter2.aggressiveness = Math.random() * 10;  // Reset to a random value between 0 and 10
+  
+    gameOver = false;
+  }
 
 function drawGameOver() {
   ctx.fillStyle = 'black';
@@ -118,6 +125,12 @@ function draw() {
   drawHealthBar(fighter2);
   drawHealthPoints(fighter1, 10, 30);
   drawHealthPoints(fighter2, canvas.width - 50, 30);
+
+  // Draw health points and aggressiveness
+  ctx.font = '20px Arial';
+  ctx.fillText(fighter1.health, 10, 30);
+  ctx.fillText(fighter2.health, canvas.width - 50, 30);
+  ctx.fillText(fighter2.aggressiveness.toFixed(1), canvas.width - 50, 60);
 
   // Draw fighters
   drawFighter(fighter1);
