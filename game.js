@@ -74,14 +74,18 @@ function update() {
   var oldX1 = fighter1.x, oldX2 = fighter2.x;
 
   // Update fighter1's position
-  if (keys[KEY_A]) fighter1.dx = -speed;
-  else if (keys[KEY_D]) fighter1.dx = speed;
-  else fighter1.dx = 0;
+  if (!gameOver) {
+    if (keys[KEY_A]) fighter1.dx = -speed;
+    else if (keys[KEY_D]) fighter1.dx = speed;
+    else fighter1.dx = 0;
+  }
 
   // Update fighter2's position
-  if (keys[KEY_J]) fighter2.dx = -speed;
-  else if (keys[KEY_L]) fighter2.dx = speed;
-  else fighter2.dx = 0;
+  if (!gameOver) {
+    if (keys[KEY_J]) fighter2.dx = -speed;
+    else if (keys[KEY_L]) fighter2.dx = speed;
+    else fighter2.dx = 0;
+  }
 
   // Apply changes to the fighter's positions
   fighter1.x += fighter1.dx;
@@ -126,7 +130,7 @@ function gameLoop() {
   draw();
   update();
 
-  if (!gameOver) requestAnimationFrame(gameLoop);
+  requestAnimationFrame(gameLoop);
 }
 
 // Start the game loop
