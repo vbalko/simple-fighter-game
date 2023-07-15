@@ -15,8 +15,8 @@ var fighter2 = {
 var speed = 5;
 var punchDistance = 60;
 
-// Key codes for A, D, J, and L keys
-var KEY_A = 65, KEY_D = 68, KEY_J = 74, KEY_L = 76, KEY_S = 83, KEY_K = 75;
+// Key codes for A, D, J, L, S, K and Space keys
+var KEY_A = 65, KEY_D = 68, KEY_J = 74, KEY_L = 76, KEY_S = 83, KEY_K = 75, KEY_SPACE = 32;
 
 // Key press states
 var keys = {};
@@ -30,6 +30,14 @@ window.addEventListener('keydown', function(e) {
   if (!gameOver) {
     if (e.keyCode === KEY_S) fighter1.punch();
     if (e.keyCode === KEY_K) fighter2.punch();
+  } else if (e.keyCode === KEY_SPACE) {  // Restart game
+    fighter1.health = 100;
+    fighter1.dead = false;
+    fighter1.x = 100;
+    fighter2.health = 100;
+    fighter2.dead = false;
+    fighter2.x = 300;
+    gameOver = false;
   }
 });
 window.addEventListener('keyup', function(e) {
@@ -52,11 +60,11 @@ function draw() {
   ctx.fillText(fighter2.health, canvas.width - 50, 30);
 
   // Draw fighter1
-  ctx.fillStyle = fighter1.punching ? 'lightblue' : fighter1.color;
+  ctx.fillStyle = fighter1.dead ? 'black' : (fighter1.punching ? 'lightblue' : fighter1.color);
   ctx.fillRect(fighter1.x, fighter1.y, fighter1.width, fighter1.height);
 
   // Draw fighter2
-  ctx.fillStyle = fighter2.punching ? 'pink' : fighter2.color;
+  ctx.fillStyle = fighter2.dead ? 'black' : (fighter2.punching ? 'pink' : fighter2.color);
   ctx.fillRect(fighter2.x, fighter2.y, fighter2.width, fighter2.height);
 
   // Draw game over message
@@ -65,6 +73,7 @@ function draw() {
     ctx.textAlign = 'center';
     ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
     ctx.fillText(fighter1.dead ? 'Fighter 2 Wins!' : 'Fighter 1 Wins!', canvas.width / 2, canvas.height / 2 + 30);
+    ctx.fillText('Press Spacebar to Restart', canvas.width / 2, canvas.height / 2 + 60);
   }
 }
 
