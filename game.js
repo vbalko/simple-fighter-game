@@ -47,6 +47,9 @@ function draw() {
 
 // Update function
 function update() {
+  // Store old positions
+  var oldX1 = fighter1.x, oldX2 = fighter2.x;
+
   // Update fighter1's position
   if (keys[KEY_A]) fighter1.dx = -speed;
   else if (keys[KEY_D]) fighter1.dx = speed;
@@ -64,6 +67,13 @@ function update() {
   // Prevent fighters from going off screen
   fighter1.x = Math.max(0, Math.min(canvas.width - fighter1.width, fighter1.x));
   fighter2.x = Math.max(0, Math.min(canvas.width - fighter2.width, fighter2.x));
+
+  // Prevent fighters from stepping over each other
+  if (Math.abs(fighter1.x - fighter2.x) < fighter1.width) {
+    // Restore old positions
+    fighter1.x = oldX1;
+    fighter2.x = oldX2;
+  }
 
   // Check for punches
   if (fighter1.punching && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
