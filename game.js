@@ -3,11 +3,11 @@ var ctx = canvas.getContext('2d');
 
 // Fighter objects
 var fighter1 = {
-  x: 100, y: canvas.height - 60, width: 50, height: 50, color: 'blue', dx: 0, punching: false,
+  x: 100, y: canvas.height - 60, width: 50, height: 50, color: 'blue', dx: 0, punching: false, health: 100,
   punch: function() { this.punching = true; }
 };
 var fighter2 = {
-  x: 300, y: canvas.height - 60, width: 50, height: 50, color: 'red', dx: 0, punching: false,
+  x: 300, y: canvas.height - 60, width: 50, height: 50, color: 'red', dx: 0, punching: false, health: 100,
   punch: function() { this.punching = true; }
 };
 
@@ -35,6 +35,16 @@ window.addEventListener('keyup', function(e) {
 function draw() {
   // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw health bars
+  ctx.fillStyle = 'green';
+  ctx.fillRect(fighter1.x, fighter1.y - 20, fighter1.health / 2, 10);
+  ctx.fillRect(fighter2.x, fighter2.y - 20, fighter2.health / 2, 10);
+
+  // Draw health points
+  ctx.font = '20px Arial';
+  ctx.fillText(fighter1.health, 10, 30);
+  ctx.fillText(fighter2.health, canvas.width - 50, 30);
 
   // Draw fighter1
   ctx.fillStyle = fighter1.punching ? 'lightblue' : fighter1.color;
@@ -78,9 +88,11 @@ function update() {
   // Check for punches
   if (fighter1.punching && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
     fighter2.x += 10;  // Move fighter2 back a bit
+    fighter2.health -= 10;  // Reduce fighter2's health
   }
   if (fighter2.punching && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
     fighter1.x -= 10;  // Move fighter1 back a bit
+    fighter1.health -= 10;  // Reduce fighter1's health
   }
 
   // Reset punching states
