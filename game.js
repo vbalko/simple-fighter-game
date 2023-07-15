@@ -26,6 +26,7 @@ function Fighter(x, color) {
   this.dead = false;
   this.punch = function() {
     this.punching = true;
+    setTimeout(() => this.punching = false, 500);  // Stop punching after 500 ms
   };
 }
 
@@ -34,8 +35,6 @@ var fighter1 = new Fighter(100, 'blue');
 var fighter2 = new Fighter(300, 'red');
 
 fighter2.aggressiveness = Math.random() * 10;  // Initialize to a random value between 0 and 10
-
-
 
 // Game variables
 var keys = {};
@@ -58,9 +57,8 @@ window.addEventListener('keyup', function(e) {
 
 // Game Functions
 function drawFighter(fighter, image) {
-    ctx.drawImage(image, fighter.x, fighter.y, fighter.width, fighter.height);
-  }
-  
+  ctx.drawImage(image, fighter.x, fighter.y, fighter.width, fighter.height);
+}
 
 function drawHealthBar(fighter) {
   ctx.fillStyle = 'green';
@@ -81,39 +79,38 @@ function updateFighterPosition(fighter, leftKey, rightKey) {
 }
 
 function checkForPunch(fighter1, fighter2) {
-    if (fighter1.punching && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
-      fighter2.x += 10;  // Move fighter2 to the right
-      fighter2.health -= 10;  // Reduce fighter2's health
-      if (fighter2.health <= 0) {
-        fighter2.dead = true;
-        gameOver = true;
-      }
+  if (fighter1.punching && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
+    fighter2.x += 10;  // Move fighter2 to the right
+    fighter2.health -= 10;  // Reduce fighter2's health
+    if (fighter2.health <= 0) {
+      fighter2.dead = true;
+      gameOver = true;
     }
-    if (fighter2.punching && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
-      fighter1.x -= 10;  // Move fighter1 to the left
-      fighter1.health -= 10;  // Reduce fighter1's health
-      if (fighter1.health <= 0) {
-        fighter1.dead = true;
-        gameOver = true;
-      }
-    }
-    fighter1.punching = false;
-    fighter2.punching = false;
   }
-  
+  if (fighter2.punching && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
+    fighter1.x -= 10;  // Move fighter1 to the left
+    fighter1.health -= 10;  // Reduce fighter1's health
+    if (fighter1.health <= 0) {
+      fighter1.dead = true;
+      gameOver = true;
+    }
+  }
+  fighter1.punching = false;
+  fighter2.punching = false;
+}
 
-  function restartGame() {
-    // Reset fighters
-    fighter1.health = 100;
-    fighter1.dead = false;
-    fighter1.x = 100;
-    fighter2.health = 100;
-    fighter2.dead = false;
-    fighter2.x = 300;
-    fighter2.aggressiveness = Math.random() * 10;  // Reset to a random value between 0 and 10
-  
-    gameOver = false;
-  }
+function restartGame() {
+  // Reset fighters
+  fighter1.health = 100;
+  fighter1.dead = false;
+  fighter1.x = 100;
+  fighter2.health = 100;
+  fighter2.dead = false;
+  fighter2.x = 300;
+  fighter2.aggressiveness = Math.random() * 10;  // Reset to a random value between 0 and 10
+
+  gameOver = false;
+}
 
 function drawGameOver() {
   ctx.fillStyle = 'black';
@@ -134,16 +131,26 @@ function draw() {
   drawHealthPoints(fighter1, 10, 30);
   drawHealthPoints(fighter2, canvas.width - 50, 30);
 
-  // Draw health points and aggressiveness
-  ctx.font = '20px Arial';
-  ctx.fillText(fighter1.health, 10, 30);
-  ctx.fillText(fighter2.health, canvas.width - 50, 30);
-  ctx.fillText(fighter2.aggressiveness.toFixed(1), canvas.width - 50, 60);
+  // Animate the arms if the fighters are punching
+  if (fighter1.punching) {
+    var fighter1RightArm = document.getElementById('fighter1RightArm');
+    fighter1RightArm.setAttribute('x2', '60');  // Extend the arm
+  } else {
+    var fighter1RightArm = document.getElementById('fighter1RightArm');
+    fighter1RightArm.setAttribute('x2', '50');  // Retract the arm
+  }
+
+  if (fighter2.punching) {
+    var fighter2LeftArm = document.getElementById('fighter2LeftArm');
+    fighter2LeftArm.setAttribute('x2', '-10');  // Extend the arm
+  } else {
+    var fighter2LeftArm = document.getElementById('fighter2LeftArm');
+    fighter2LeftArm.setAttribute('x2', '0');  // Retract the arm
+  }
 
   // Draw fighters
-drawFighter(fighter1, fighter1Image);
-drawFighter(fighter2, fighter2Image);
-
+  drawFighter(fighter1, fighter1Image);
+  drawFighter(fighter2, fighter2Image);
 
   // Draw game over message
   if (gameOver) drawGameOver();
@@ -151,28 +158,28 @@ drawFighter(fighter2, fighter2Image);
 
 // Update function
 function update() {
-    // Update fighter1's position
-    if (!gameOver) {
-      updateFighterPosition(fighter1, KEY_A, KEY_D);
-    }
-  
-    // AI for fighter2
-    if (!gameOver) {
-      updateFighter2AI(fighter1, fighter2);
-    }
-  
-    // Apply changes to the fighter's positions
-    fighter1.x += fighter1.dx;
-    fighter2.x += fighter2.dx;
-  
-    // Prevent fighters from going off screen
-    fighter1.x = Math.max(0, Math.min(canvas.width - fighter1.width, fighter1.x));
-    fighter2.x = Math.max(0, Math.min(canvas.width - fighter2.width, fighter2.x));
-  
-    // Check for punches
-    checkForPunch(fighter1, fighter2);
-    checkForPunch(fighter2, fighter1);
-  }  
+  // Update fighter1's position
+  if (!gameOver) {
+    updateFighterPosition(fighter1, KEY_A, KEY_D);
+  }
+
+  // AI for fighter2
+  if (!gameOver) {
+    updateFighter2AI(fighter1, fighter2);
+  }
+
+  // Apply changes to the fighter's positions
+  fighter1.x += fighter1.dx;
+  fighter2.x += fighter2.dx;
+
+  // Prevent fighters from going off screen
+  fighter1.x = Math.max(0, Math.min(canvas.width - fighter1.width, fighter1.x));
+  fighter2.x = Math.max(0, Math.min(canvas.width - fighter2.width, fighter2.x));
+
+  // Check for punches
+  checkForPunch(fighter1, fighter2);
+  checkForPunch(fighter2, fighter1);
+}
 
 // Game loop
 function gameLoop() {
