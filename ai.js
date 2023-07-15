@@ -2,7 +2,7 @@
 
 function updateFighter2AI(fighter1, fighter2) {
     var distance = fighter2.x - fighter1.x;
-    var minDistance = 80 + 10 * Math.sin(Date.now() / 1000);  // Move back and forth slightly over time
+    var minDistance = 80 + 10 * Math.sin(Date.now() / 500000000000);  // Move back and forth more slowly over time
   
     // Change behavior based on health level
     if (fighter2.health < 30) {
