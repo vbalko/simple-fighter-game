@@ -1,6 +1,9 @@
 function updateFighter2AI(fighter1, fighter2) {
+    // Calculate aggressiveness based on health. The lower the health, the higher the aggressiveness.
+    var healthBasedAggressiveness = fighter2.aggressiveness * (1 + (100 - fighter2.health) / 100);
+  
     if (Math.abs(fighter1.x - fighter2.x) < punchDistance) {
-      if (Math.random() < fighter2.aggressiveness / 10) {
+      if (Math.random() < healthBasedAggressiveness / 20) { // Aggressiveness now depends on health
         fighter2.punch();
       }
     }
@@ -23,12 +26,12 @@ function updateFighter2AI(fighter1, fighter2) {
     }
   
     // If fighter1 is punching and fighter2 is on the ground, there's a chance fighter2 will jump to avoid the punch
-    if (fighter1.punching && fighter2.onGround && Math.random() < 0.5) {
+    if (fighter1.punching && fighter2.onGround && Math.random() < 0.3) { // Lowered chance to jump
       fighter2.jump();
     }
   
     // If fighter1 is in the air and fighter2 is on the ground, there's a chance fighter2 will jump to match fighter1's height
-    if (!fighter1.onGround && fighter2.onGround && Math.random() < 0.5) {
+    if (!fighter1.onGround && fighter2.onGround && Math.random() < 0.3) { // Lowered chance to jump
       fighter2.jump();
     }
   }

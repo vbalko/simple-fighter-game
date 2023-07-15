@@ -194,6 +194,13 @@ function drawGameOver() {
   ctx.fillText('Press Spacebar to Restart', canvas.width / 2, canvas.height / 2 + 60);
 }
 
+function drawAggressiveness(fighter, x, y) {
+    ctx.font = '15px Arial';
+    var healthBasedAggressiveness = fighter.aggressiveness * (1 + (100 - fighter.health) / 100);
+    ctx.fillText('Aggressiveness: ' + healthBasedAggressiveness.toFixed(2), x, y);
+  }
+  
+
 // Draw function
 function draw() {
     // Clear the canvas
@@ -204,6 +211,8 @@ function draw() {
     drawHealthBar(fighter2);
     drawHealthPoints(fighter1, 10, 30);
     drawHealthPoints(fighter2, canvas.width - 50, 30);
+    drawAggressiveness(fighter2, canvas.width - 50, 50); // Draw aggressiveness under health
+
   
     // Draw fighters
     drawFighter(fighter1, fighter1SVGNormal, fighter1SVGPunch);
