@@ -109,40 +109,34 @@ function drawHealthPoints(fighter, x, y, name) {
     ctx.fillText(name + ' Health: ' + fighter.health, x, y);
   }
 
-function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
-   
+  function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
     if (Math.abs(fighter.x - otherFighter.x) < fighter.width && fighter.onGround) {
-        if (fighter.x < otherFighter.x) {
-          fighter.dx = 0;
-        } else {
-          fighter.dx = 0;
-        }
+      if (fighter.x < otherFighter.x) {
+        fighter.dx = 0;
       } else {
-        if (keys[leftKey]) fighter.dx = -speed;
-        else if (keys[rightKey]) fighter.dx = speed;
-        else fighter.dx = 0;
+        fighter.dx = 0;
       }
-   
-   
-    // if (keys[leftKey] && fighter.x - speed > otherFighter.x + otherFighter.width) {
-    //   fighter.dx = -speed;
-    // } else if (keys[rightKey] && fighter.x + fighter.width + speed < otherFighter.x) {
-    //   fighter.dx = speed;
-    // } else {
-    //   fighter.dx = 0;
-    // }
+    } else {
+      if (keys[leftKey]) fighter.dx = -speed;
+      else if (keys[rightKey]) fighter.dx = speed;
+      else fighter.dx = 0;
+    }
+    
     fighter.x += fighter.dx;
     fighter.x = Math.max(0, Math.min(canvas.width - fighter.width, fighter.x));
+    
     if (!fighter.onGround) {
-        fighter.dy += fighter.gravity; // Apply gravity
-      } else {
-        fighter.dy = 0;
-      }
-      fighter.y += fighter.dy;
-      if (fighter.y > fighter.startY) { // If the fighter is below the ground
-        fighter.y = fighter.startY; // Put him on the ground
-        fighter.onGround = true;
-      } 
+      fighter.dy += fighter.gravity; // Apply gravity
+    } else {
+      fighter.dy = 0;
+    }
+    
+    fighter.y += fighter.dy;
+    
+    if (fighter.y > fighter.startY) { // If the fighter is below the ground
+      fighter.y = fighter.startY; // Put him on the ground
+      fighter.onGround = true;
+    } 
   }
 
 function checkForPunch(fighter1, fighter2) {
