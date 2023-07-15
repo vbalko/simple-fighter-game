@@ -110,13 +110,27 @@ function drawHealthPoints(fighter, x, y) {
 }
 
 function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
-    if (keys[leftKey] && fighter.x - speed > otherFighter.x + otherFighter.width) {
-      fighter.dx = -speed;
-    } else if (keys[rightKey] && fighter.x + fighter.width + speed < otherFighter.x) {
-      fighter.dx = speed;
-    } else {
-      fighter.dx = 0;
-    }
+   
+    if (Math.abs(fighter.x - otherFighter.x) < fighter.width && fighter.onGround) {
+        if (fighter.x < otherFighter.x) {
+          fighter.dx = 0;
+        } else {
+          fighter.dx = 0;
+        }
+      } else {
+        if (keys[leftKey]) fighter.dx = -speed;
+        else if (keys[rightKey]) fighter.dx = speed;
+        else fighter.dx = 0;
+      }
+   
+   
+    // if (keys[leftKey] && fighter.x - speed > otherFighter.x + otherFighter.width) {
+    //   fighter.dx = -speed;
+    // } else if (keys[rightKey] && fighter.x + fighter.width + speed < otherFighter.x) {
+    //   fighter.dx = speed;
+    // } else {
+    //   fighter.dx = 0;
+    // }
     fighter.x += fighter.dx;
     fighter.x = Math.max(0, Math.min(canvas.width - fighter.width, fighter.x));
     if (!fighter.onGround) {
@@ -131,29 +145,33 @@ function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
       } 
   }
 
-
 function checkForPunch(fighter1, fighter2) {
-  if (fighter1.punching && !fighter1.punchResolved && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
-    fighter2.x += 10;  // Move fighter2 to the right
-    fighter2.health -= 10;  // Reduce fighter2's health
-    fighter1.punchResolved = true;
-    if (fighter2.health <= 0) {
-      fighter2.dead = true;
-      gameOver = true;
+    if (fighter1.punching && !fighter1.punchResolved && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
+      // Only allow the punch to land if both fighters are on the ground or both are in the air
+      if ((fighter1.onGround && fighter2.onGround) || (!fighter1.onGround && !fighter2.onGround)) {
+        fighter2.x += 10;  // Move fighter2 to the right
+        fighter2.health -= 10;  // Reduce fighter2's health
+        fighter1.punchResolved = true;
+        if (fighter2.health <= 0) {
+          fighter2.dead = true;
+          gameOver = true;
+        }
+      }
+    }
+    if (fighter2.punching && !fighter2.punchResolved && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
+      // Only allow the punch to land if both fighters are on the ground or both are in the air
+      if ((fighter1.onGround && fighter2.onGround) || (!fighter1.onGround && !fighter2.onGround)) {
+        fighter1.x -= 10;  // Move fighter1 to the left
+        fighter1.health -= 10;  // Reduce fighter1's health
+        fighter2.punchResolved = true;
+        if (fighter1.health <= 0) {
+          fighter1.dead = true;
+          gameOver = true;
+        }
+      }
     }
   }
-  if (fighter2.punching && !fighter2.punchResolved && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
-    fighter1.x -= 10;  // Move fighter1 to the left
-    fighter1.health -= 10;  // Reduce fighter1's health
-    fighter2.punchResolved = true;
-    if (fighter1.health <= 0) {
-      fighter1.dead = true;
-      gameOver = true;
-    }
-  }
-  //fighter1.punching = false;
-  //fighter2.punching = false;
-}
+  
 
 function restartGame() {
   // Reset fighters
