@@ -9,7 +9,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
+                /* height: 100vh; */
+                /* flex-direction: column; */
                 margin: 0;
                 font-family: Arial, sans-serif;
             }
@@ -18,6 +19,24 @@
                 border: 5px solid #1c92d2;
                 border-radius: 10px;
                 box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            #gameInstructions {
+                margin: 20px;
+                width: 80px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            #gameDescription {
+                margin: 20px;
+                /* width: 800px; */
+                /* height: 200px; */
+                overflow-y: scroll;
+                border: 1px solid #ccc;
+                padding: 10px;
+                box-sizing: border-box;
+                background-color: #fff;
             }
 
             .container {
@@ -97,12 +116,37 @@
         <h1>Simple 2D Game Implemented Completely by ChatGPT Prompting</h1>
 
         <div class="content">
-            <div>
-                <p>Controls: Use A for left, D for right, S for punch and space for jump</p>
+            <div id="gameInstructions">
+                <div>
+                    <h2>Controls</h2>
+                    <p>A: Move Left</p>
+                    <p>D: Move Right</p>
+                    <p>S: Punch</p>
+                    <p>Space: Jump</p>
+                </div>
             </div>
 
             <div class="gamebox">
                 <canvas id="gameCanvas" width="800" height="600"></canvas>
+                <div id="gameDescription">
+                    <p>This game is a simple 2D fighting game featuring two fighters. The player controls Fighter 1,
+                        while Fighter 2 is controlled by an AI. The AI's behavior is determined by its aggressiveness
+                        attribute, which influences its strategy during the game. When the AI's health is high, it tends
+                        to be more defensive, focusing on dodging the player's attacks. However, as its health
+                        decreases, the AI becomes more aggressive, attacking more frequently and with greater intensity.
+                        This dynamic behavior makes the game more challenging and engaging for the player.</p>
+
+                    <p>The game also features a beautiful gradient background that depicts a setting sun, complete with
+                        stars and clouds, adding to the overall aesthetic of the game. The fighters can move left and
+                        right, jump, and punch each other, with each successful punch reducing the opponent's health.
+                        The game ends when one of the fighters' health reaches zero.</p>
+
+                    <p>This game was created through a unique collaboration between a user and ChatGPT, an AI developed
+                        by OpenAI. The user provided the initial idea and requirements for the game, and ChatGPT
+                        generated the code to implement these requirements. Throughout the process, the user provided
+                        guidance and feedback, helping to shape the final product. Approximately 95% of the game's code
+                        was produced by ChatGPT, demonstrating the potential of AI in the field of game development.</p>
+                </div>
             </div>
 
             <div>
@@ -110,6 +154,7 @@
                     the initial idea and requirements, and ChatGPT generated the code. Approximately 95% of the game's
                     code was produced by ChatGPT, with the user providing guidance and feedback throughout the process.
                 </p>
+
             </div>
         </div>
     </div>
