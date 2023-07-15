@@ -97,13 +97,18 @@ function drawHealthPoints(fighter, x, y) {
   ctx.fillText(fighter.health, x, y);
 }
 
-function updateFighterPosition(fighter, leftKey, rightKey) {
-  if (keys[leftKey]) fighter.dx = -speed;
-  else if (keys[rightKey]) fighter.dx = speed;
-  else fighter.dx = 0;
-  fighter.x += fighter.dx;
-  fighter.x = Math.max(0, Math.min(canvas.width - fighter.width, fighter.x));
-}
+function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
+    if (keys[leftKey] && fighter.x - speed > otherFighter.x + otherFighter.width) {
+      fighter.dx = -speed;
+    } else if (keys[rightKey] && fighter.x + fighter.width + speed < otherFighter.x) {
+      fighter.dx = speed;
+    } else {
+      fighter.dx = 0;
+    }
+    fighter.x += fighter.dx;
+    fighter.x = Math.max(0, Math.min(canvas.width - fighter.width, fighter.x));
+  }
+
 
 function checkForPunch(fighter1, fighter2) {
   if (fighter1.punching && !fighter1.punchResolved && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
@@ -172,9 +177,9 @@ function draw() {
 
 // Update function
 function update() {
-  // Update fighter1's position
-  if (!gameOver) {
-    updateFighterPosition(fighter1, KEY_A, KEY_D);
+// Update fighter1's position
+if (!gameOver) {
+    updateFighterPosition(fighter1, fighter2, KEY_A, KEY_D);
   }
 
   // AI for fighter2

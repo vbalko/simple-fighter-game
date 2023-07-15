@@ -7,10 +7,12 @@ function updateFighter2AI(fighter1, fighter2) {
     }
   
     if (Math.abs(fighter1.x - fighter2.x) < punchDistance * 2) {
-      if (fighter1.x < fighter2.x) {
+      if (fighter1.x < fighter2.x && fighter2.x - speed > fighter1.x + fighter1.width) {
         fighter2.dx = -speed;
-      } else {
+      } else if (fighter2.x + fighter2.width + speed < fighter1.x) {
         fighter2.dx = speed;
+      } else {
+        fighter2.dx = 0;
       }
     } else {
       // This part makes the AI move back and forth randomly
@@ -23,4 +25,3 @@ function updateFighter2AI(fighter1, fighter2) {
       }
     }
   }
-  
