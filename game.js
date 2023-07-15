@@ -108,9 +108,9 @@ function drawHealthPoints(fighter, x, y, name) {
     ctx.font = '20px Arial';
     ctx.fillText(name + ' Health: ' + fighter.health, x, y);
   }
-
   function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
-    if (Math.abs(fighter.x - otherFighter.x) < fighter.width && fighter.onGround) {
+    if (Math.abs(fighter.x - otherFighter.x) < fighter.width && 
+        !(fighter.y < otherFighter.y || fighter.y > otherFighter.y + otherFighter.height)) {
       if (fighter.x < otherFighter.x) {
         fighter.dx = 0;
       } else {
@@ -138,7 +138,7 @@ function drawHealthPoints(fighter, x, y, name) {
       fighter.onGround = true;
     } 
   }
-
+  
 function checkForPunch(fighter1, fighter2) {
     if (fighter1.punching && !fighter1.punchResolved && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
       // Only allow the punch to land if both fighters are on the ground or both are in the air
