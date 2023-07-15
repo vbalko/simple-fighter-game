@@ -129,16 +129,41 @@ function draw() {
 
 // Update function
 function update() {
-  // Update fighters' positions
-  if (!gameOver) {
-    updateFighterPosition(fighter1, KEY_A, KEY_D);
-    updateFighterPosition(fighter2, KEY_J, KEY_L);
+    // Update fighter1's position
+    if (!gameOver) {
+      updateFighterPosition(fighter1, KEY_A, KEY_D);
+    }
+  
+    // Simple AI for fighter2
+    if (!gameOver) {
+      var distance = fighter2.x - fighter1.x;
+      var minDistance = 80;  // Minimum distance fighter2 tries to keep from fighter1
+      if (distance < minDistance) {
+        fighter2.dx = speed;  // Move to the right
+      } else if (distance > minDistance) {
+        fighter2.dx = -speed;  // Move to the left
+      } else {
+        fighter2.dx = 0;
+      }
+      // Randomly throw punches
+      if (Math.random() < 0.01) {
+        fighter2.punch();
+      }
+    }
+  
+    // Apply changes to the fighter's positions
+    fighter1.x += fighter1.dx;
+    fighter2.x += fighter2.dx;
+  
+    // Prevent fighters from going off screen
+    fighter1.x = Math.max(0, Math.min(canvas.width - fighter1.width, fighter1.x));
+    fighter2.x = Math.max(0, Math.min(canvas.width - fighter2.width, fighter2.x));
+  
+    // Check for punches
+    checkForPunch(fighter1, fighter2);
+    checkForPunch(fighter2, fighter1);
   }
-
-  // Check for punches
-  checkForPunch(fighter1, fighter2);
-  checkForPunch(fighter2, fighter1);
-}
+  
 
 // Game loop
 function gameLoop() {
