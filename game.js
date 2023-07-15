@@ -19,6 +19,17 @@ function Fighter(x, color) {
   this.y = canvas.height - 60;
   this.width = 50;
   this.height = 50;
+  this.startY = canvas.height - 60; // Store the original starting y position
+  this.dy = 0; // Vertical speed
+  this.jumpSpeed = 10; // Jump speed
+  this.gravity = 0.5; // Gravity
+  this.onGround = true; // Is the fighter on the ground?
+  this.jump = function() {
+    if (this.onGround) {
+      this.dy = -this.jumpSpeed; // Jump up
+      this.onGround = false;
+    }
+  };
   this.color = color;
   this.dx = 0;
   this.health = 100;
@@ -59,14 +70,15 @@ var gameOver = false;
 
 // Event Listeners
 window.addEventListener('keydown', function(e) {
-  keys[e.keyCode] = true;
-  if (!gameOver) {
-    if (e.keyCode === KEY_S) fighter1.punch();
-    if (e.keyCode === KEY_K) fighter2.punch();
-  } else if (e.keyCode === KEY_SPACE) {
-    restartGame();
-  }
-});
+    keys[e.keyCode] = true;
+    if (!gameOver) {
+      if (e.keyCode === KEY_S) fighter1.punch();
+      if (e.keyCode === KEY_K) fighter2.punch();
+      if (e.keyCode === KEY_SPACE) fighter1.jump(); // Add this line
+    } else if (e.keyCode === KEY_SPACE) {
+      restartGame();
+    }
+  });
 
 window.addEventListener('keyup', function(e) {
   keys[e.keyCode] = false;
@@ -107,6 +119,16 @@ function updateFighterPosition(fighter, otherFighter, leftKey, rightKey) {
     }
     fighter.x += fighter.dx;
     fighter.x = Math.max(0, Math.min(canvas.width - fighter.width, fighter.x));
+    if (!fighter.onGround) {
+        fighter.dy += fighter.gravity; // Apply gravity
+      } else {
+        fighter.dy = 0;
+      }
+      fighter.y += fighter.dy;
+      if (fighter.y > fighter.startY) { // If the fighter is below the ground
+        fighter.y = fighter.startY; // Put him on the ground
+        fighter.onGround = true;
+      } 
   }
 
 
