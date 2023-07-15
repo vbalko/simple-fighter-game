@@ -212,6 +212,17 @@ for (let i = 0; i < 10; i++) {
     });
 }
 
+// Generate clouds
+let clouds = [];
+let numClouds = Math.floor(Math.random() * 11) + 5; // Random number between 5 and 15
+for (let i = 0; i < numClouds; i++) {
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height / 2; // Only in the upper half of the canvas
+    let size = Math.random() * 50 + 50; // Random size between 50 and 100
+    clouds.push({x: x, y: y, size: size});
+}
+
+
 function drawBackground(ctx) {
     // Create sky gradient
     var skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height - 60);
@@ -232,6 +243,20 @@ function drawBackground(ctx) {
         star.g = Math.random() * 255;
         star.b = Math.random() * 255;
     }
+
+   // Draw clouds
+   ctx.fillStyle = '#ffcccc'; // Light red color
+   ctx.globalAlpha = 0.1; // Make the clouds semi-transparent
+   for (let cloud of clouds) {
+       // Draw each cloud as 5 overlapping circles
+       for (let i = 0; i < 5; i++) {
+           ctx.beginPath();
+           ctx.arc(cloud.x + i * cloud.size / 5, cloud.y, cloud.size / 5, 0, Math.PI * 2, false);
+           ctx.fill();
+       }
+   }
+   ctx.globalAlpha = 1; // Reset transparency for the rest of the drawing
+
 
     // Draw sun
     ctx.beginPath();
