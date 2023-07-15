@@ -1,5 +1,13 @@
 // Constants
 var canvas = document.getElementById('gameCanvas');
+var fighter1SVG = document.getElementById('fighter1SVG');
+var fighter2SVG = document.getElementById('fighter2SVG');
+var fighter1Image = new Image();
+fighter1Image.src = 'data:image/svg+xml,' + encodeURIComponent(fighter1SVG.outerHTML);
+
+var fighter2Image = new Image();
+fighter2Image.src = 'data:image/svg+xml,' + encodeURIComponent(fighter2SVG.outerHTML);
+
 var ctx = canvas.getContext('2d');
 var KEY_A = 65, KEY_D = 68, KEY_J = 74, KEY_L = 76, KEY_S = 83, KEY_K = 75, KEY_SPACE = 32;
 var speed = 5;
@@ -49,10 +57,10 @@ window.addEventListener('keyup', function(e) {
 });
 
 // Game Functions
-function drawFighter(fighter) {
-  ctx.fillStyle = fighter.dead ? 'black' : (fighter.punching ? 'lightblue' : fighter.color);
-  ctx.fillRect(fighter.x, fighter.y, fighter.width, fighter.height);
-}
+function drawFighter(fighter, image) {
+    ctx.drawImage(image, fighter.x, fighter.y, fighter.width, fighter.height);
+  }
+  
 
 function drawHealthBar(fighter) {
   ctx.fillStyle = 'green';
@@ -133,8 +141,9 @@ function draw() {
   ctx.fillText(fighter2.aggressiveness.toFixed(1), canvas.width - 50, 60);
 
   // Draw fighters
-  drawFighter(fighter1);
-  drawFighter(fighter2);
+drawFighter(fighter1, fighter1Image);
+drawFighter(fighter2, fighter2Image);
+
 
   // Draw game over message
   if (gameOver) drawGameOver();
