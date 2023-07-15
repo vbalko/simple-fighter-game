@@ -105,6 +105,7 @@ function drawHealthBar(fighter) {
 }
 
 function drawHealthPoints(fighter, x, y, name) {
+    ctx.fillStyle = 'yellow';
     ctx.font = '20px Arial';
     ctx.fillText(name + ' Health: ' + fighter.health, x, y);
   }
@@ -187,7 +188,7 @@ function restartGame() {
 }
 
 function drawGameOver() {
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = 'yellow';
   ctx.textAlign = 'center';
   ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
   ctx.fillText(fighter1.dead ? 'Fighter 2 Wins!' : 'Fighter 1 Wins!', canvas.width / 2, canvas.height / 2 + 30);

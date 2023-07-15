@@ -1,57 +1,120 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>2D Fighter Game</title>
-  <style>
-    #gameCanvas {
-      border: 1px solid black;
-    }
-  </style>
-</head>
-<body>
 
+<head>
+    <<title>Simple 2D Game Implemented Completely by ChatGPT Prompting</title>
+        <style>
+            body {
+                background: linear-gradient(to right, #1c92d2, #f2fcfe);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+
+            #gameCanvas {
+                border: 5px solid #1c92d2;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .container {
+                text-align: center;
+                /* max-width: 800px; */
+                margin: 0 auto;
+                padding: 20px;
+                box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+                /* background: white; */
+                border-radius: 10px;
+            }
+
+            .gamebox {
+                max-width: 800px;
+                background: white;
+            }
+
+            h1 {
+                color: #1c92d2;
+                background-color: rgba(255, 255, 255, 0.4);
+            }
+
+            p {
+                color: #333;
+            }
+
+            .content {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .content>div {
+                flex: 1;
+                padding: 20px;
+            }
+        </style>
+</head>
+
+<body>
     <svg id="fighter1SVGNormal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
         <circle cx="25" cy="10" r="10" fill="#00FF00" /> <!-- Head -->
         <rect x="20" y="20" width="10" height="20" fill="#00FF00" /> <!-- Body -->
-        <line x1="20" y1="25" x2="10" y2="30" stroke="#00FF00" stroke-width="4"/> <!-- Left Arm -->
-        <line x1="30" y1="25" x2="40" y2="30" stroke="#00FF00" stroke-width="4"/> <!-- Right Arm -->
-        <line x1="20" y1="40" x2="20" y2="50" stroke="#00FF00" stroke-width="4"/> <!-- Left Leg -->
-        <line x1="30" y1="40" x2="30" y2="50" stroke="#00FF00" stroke-width="4"/> <!-- Right Leg -->
+        <line x1="20" y1="25" x2="10" y2="30" stroke="#00FF00" stroke-width="4" /> <!-- Left Arm -->
+        <line x1="30" y1="25" x2="40" y2="30" stroke="#00FF00" stroke-width="4" /> <!-- Right Arm -->
+        <line x1="20" y1="40" x2="20" y2="50" stroke="#00FF00" stroke-width="4" /> <!-- Left Leg -->
+        <line x1="30" y1="40" x2="30" y2="50" stroke="#00FF00" stroke-width="4" /> <!-- Right Leg -->
     </svg>
 
     <svg id="fighter1SVGPunch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
         <circle cx="25" cy="10" r="10" fill="#00FF00" /> <!-- Head -->
         <rect x="20" y="20" width="10" height="20" fill="#00FF00" /> <!-- Body -->
-        <line x1="20" y1="25" x2="10" y2="30" stroke="#00FF00" stroke-width="4"/> <!-- Left Arm -->
-        <line x1="30" y1="25" x2="150" y2="30" stroke="#00FF00" stroke-width="4"/> <!-- Right Arm -->
-        <line x1="20" y1="40" x2="20" y2="50" stroke="#00FF00" stroke-width="4"/> <!-- Left Leg -->
-        <line x1="30" y1="40" x2="30" y2="50" stroke="#00FF00" stroke-width="4"/> <!-- Right Leg -->
+        <line x1="20" y1="25" x2="10" y2="30" stroke="#00FF00" stroke-width="4" /> <!-- Left Arm -->
+        <line x1="30" y1="25" x2="150" y2="30" stroke="#00FF00" stroke-width="4" /> <!-- Right Arm -->
+        <line x1="20" y1="40" x2="20" y2="50" stroke="#00FF00" stroke-width="4" /> <!-- Left Leg -->
+        <line x1="30" y1="40" x2="30" y2="50" stroke="#00FF00" stroke-width="4" /> <!-- Right Leg -->
     </svg>
-        
-  <svg id="fighter2SVGNormal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
-    <circle cx="25" cy="10" r="10" fill="red" /> <!-- Head -->
-    <rect x="20" y="20" width="10" height="20" fill="red" /> <!-- Body -->
-    <line x1="20" y1="25" x2="10" y2="30" stroke="red" stroke-width="4"/> <!-- Left Arm -->
-    <line x1="30" y1="25" x2="40" y2="30" stroke="red" stroke-width="4"/> <!-- Right Arm -->
-    <line x1="20" y1="40" x2="20" y2="50" stroke="red" stroke-width="4"/> <!-- Left Leg -->
-    <line x1="30" y1="40" x2="30" y2="50" stroke="red" stroke-width="4"/> <!-- Right Leg -->
-</svg>
 
-<svg id="fighter2SVGPunch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
-    <circle cx="25" cy="10" r="10" fill="red" /> <!-- Head -->
-    <rect x="20" y="20" width="10" height="20" fill="red" /> <!-- Body -->
-    <line x1="20" y1="25" x2="0" y2="30" stroke="red" stroke-width="4"/> <!-- Left Arm -->
-    <line x1="30" y1="25" x2="40" y2="30" stroke="red" stroke-width="4"/> <!-- Right Arm -->
-    <line x1="20" y1="40" x2="20" y2="50" stroke="red" stroke-width="4"/> <!-- Left Leg -->
-    <line x1="30" y1="40" x2="30" y2="50" stroke="red" stroke-width="4"/> <!-- Right Leg -->
-</svg>
+    <svg id="fighter2SVGNormal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
+        <circle cx="25" cy="10" r="10" fill="red" /> <!-- Head -->
+        <rect x="20" y="20" width="10" height="20" fill="red" /> <!-- Body -->
+        <line x1="20" y1="25" x2="10" y2="30" stroke="red" stroke-width="4" /> <!-- Left Arm -->
+        <line x1="30" y1="25" x2="40" y2="30" stroke="red" stroke-width="4" /> <!-- Right Arm -->
+        <line x1="20" y1="40" x2="20" y2="50" stroke="red" stroke-width="4" /> <!-- Left Leg -->
+        <line x1="30" y1="40" x2="30" y2="50" stroke="red" stroke-width="4" /> <!-- Right Leg -->
+    </svg>
 
-  
-  
+    <svg id="fighter2SVGPunch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
+        <circle cx="25" cy="10" r="10" fill="red" /> <!-- Head -->
+        <rect x="20" y="20" width="10" height="20" fill="red" /> <!-- Body -->
+        <line x1="20" y1="25" x2="0" y2="30" stroke="red" stroke-width="4" /> <!-- Left Arm -->
+        <line x1="30" y1="25" x2="40" y2="30" stroke="red" stroke-width="4" /> <!-- Right Arm -->
+        <line x1="20" y1="40" x2="20" y2="50" stroke="red" stroke-width="4" /> <!-- Left Leg -->
+        <line x1="30" y1="40" x2="30" y2="50" stroke="red" stroke-width="4" /> <!-- Right Leg -->
+    </svg>
 
-  <canvas id="gameCanvas" width="800" height="600"></canvas>
-  <script src="ai.js"></script>
-  <script src="game.js"></script>
-  
+    <div class="container">
+        <h1>Simple 2D Game Implemented Completely by ChatGPT Prompting</h1>
+
+        <div class="content">
+            <div>
+                <p>Controls: Use A for left, D for right, S for punch and space for jump</p>
+            </div>
+
+            <div class="gamebox">
+                <canvas id="gameCanvas" width="800" height="600"></canvas>
+            </div>
+
+            <div>
+                <p>This game was created through a collaborative effort between a user and ChatGPT. The user provided
+                    the initial idea and requirements, and ChatGPT generated the code. Approximately 95% of the game's
+                    code was produced by ChatGPT, with the user providing guidance and feedback throughout the process.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="ai.js"></script>
+    <script src="game.js"></script>
 </body>
+
 </html>
