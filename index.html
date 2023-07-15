@@ -10,26 +10,42 @@
 </head>
 <body>
 
-<!-- Fighter 1 SVG -->
-<svg id="fighter1SVG" xmlns="http://www.w3.org/2000/svg" width="50" height="100" style="display: none;">
-    <circle cx="25" cy="20" r="20" fill="blue" /> <!-- Head -->
-    <rect x="15" y="40" width="20" height="30" fill="blue" /> <!-- Body -->
-    <line x1="15" y1="70" x2="0" y2="100" stroke="blue" stroke-width="10"/> <!-- Left leg -->
-    <line x1="35" y1="70" x2="50" y2="100" stroke="blue" stroke-width="10"/> <!-- Right leg -->
-    <line id="fighter1LeftArm" x1="15" y1="40" x2="0" y2="60" stroke="blue" stroke-width="10"/> <!-- Left arm -->
-    <line id="fighter1RightArm" x1="35" y1="40" x2="50" y2="60" stroke="blue" stroke-width="10"/> <!-- Right arm -->
-  </svg>
-  
-  <!-- Fighter 2 SVG -->
-  <svg id="fighter2SVG" xmlns="http://www.w3.org/2000/svg" width="50" height="100" style="display: none;">
-    <circle cx="25" cy="20" r="20" fill="red" /> <!-- Head -->
-    <rect x="15" y="40" width="20" height="30" fill="red" /> <!-- Body -->
-    <line x1="15" y1="70" x2="0" y2="100" stroke="red" stroke-width="10"/> <!-- Left leg -->
-    <line x1="35" y1="70" x2="50" y2="100" stroke="red" stroke-width="10"/> <!-- Right leg -->
-    <line id="fighter2LeftArm" x1="15" y1="40" x2="0" y2="60" stroke="red" stroke-width="10"/> <!-- Left arm -->
-    <line id="fighter2RightArm" x1="35" y1="40" x2="50" y2="60" stroke="red" stroke-width="10"/> <!-- Right arm -->
-  </svg>
-  
+    <svg id="fighter1SVGNormal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
+        <circle cx="25" cy="10" r="10" fill="blue" /> <!-- Head -->
+        <rect x="20" y="20" width="10" height="20" fill="blue" /> <!-- Body -->
+        <line x1="20" y1="25" x2="10" y2="30" stroke="blue" stroke-width="4"/> <!-- Left Arm -->
+        <line x1="30" y1="25" x2="40" y2="30" stroke="blue" stroke-width="4"/> <!-- Right Arm -->
+        <line x1="20" y1="40" x2="20" y2="50" stroke="blue" stroke-width="4"/> <!-- Left Leg -->
+        <line x1="30" y1="40" x2="30" y2="50" stroke="blue" stroke-width="4"/> <!-- Right Leg -->
+    </svg>
+
+    <svg id="fighter1SVGPunch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
+        <circle cx="25" cy="10" r="10" fill="blue" /> <!-- Head -->
+        <rect x="20" y="20" width="10" height="20" fill="blue" /> <!-- Body -->
+        <line x1="20" y1="25" x2="10" y2="30" stroke="blue" stroke-width="4"/> <!-- Left Arm -->
+        <line x1="30" y1="25" x2="150" y2="30" stroke="blue" stroke-width="4"/> <!-- Right Arm -->
+        <line x1="20" y1="40" x2="20" y2="50" stroke="blue" stroke-width="4"/> <!-- Left Leg -->
+        <line x1="30" y1="40" x2="30" y2="50" stroke="blue" stroke-width="4"/> <!-- Right Leg -->
+    </svg>
+        
+  <svg id="fighter2SVGNormal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
+    <circle cx="25" cy="10" r="10" fill="red" /> <!-- Head -->
+    <rect x="20" y="20" width="10" height="20" fill="red" /> <!-- Body -->
+    <line x1="20" y1="25" x2="10" y2="30" stroke="red" stroke-width="4"/> <!-- Left Arm -->
+    <line x1="30" y1="25" x2="40" y2="30" stroke="red" stroke-width="4"/> <!-- Right Arm -->
+    <line x1="20" y1="40" x2="20" y2="50" stroke="red" stroke-width="4"/> <!-- Left Leg -->
+    <line x1="30" y1="40" x2="30" y2="50" stroke="red" stroke-width="4"/> <!-- Right Leg -->
+</svg>
+
+<svg id="fighter2SVGPunch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style="display: none;">
+    <circle cx="25" cy="10" r="10" fill="red" /> <!-- Head -->
+    <rect x="20" y="20" width="10" height="20" fill="red" /> <!-- Body -->
+    <line x1="20" y1="25" x2="0" y2="30" stroke="red" stroke-width="4"/> <!-- Left Arm -->
+    <line x1="30" y1="25" x2="40" y2="30" stroke="red" stroke-width="4"/> <!-- Right Arm -->
+    <line x1="20" y1="40" x2="20" y2="50" stroke="red" stroke-width="4"/> <!-- Left Leg -->
+    <line x1="30" y1="40" x2="30" y2="50" stroke="red" stroke-width="4"/> <!-- Right Leg -->
+</svg>
+
   
   
 

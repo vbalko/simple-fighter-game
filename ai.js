@@ -1,25 +1,25 @@
-// In ai.js file
-
+// AI for fighter2
 function updateFighter2AI(fighter1, fighter2) {
-    var distance = fighter2.x - fighter1.x;
-    var minDistance = 80 + 10 * Math.sin(Date.now() / 500000000000);  // Move back and forth more slowly over time
-  
-    // Change behavior based on health level
-    if (fighter2.health < 30) {
-      // Defensive strategy: always try to move away from fighter1
-      fighter2.dx = distance < 0 ? -speed : speed;
-    } else {
-      // Offensive strategy: approach fighter1 to punch, but keep some distance
-      if (distance < minDistance) {
-        fighter2.dx = speed;  // Move to the right
-      } else if (distance > minDistance) {
-        fighter2.dx = -speed;  // Move to the left
-      } else {
-        fighter2.dx = 0;
-      }
-      // Throw punches based on aggressiveness
-      if (Math.random() < 0.01 * fighter2.aggressiveness && distance < minDistance + 10) {
+    if (Math.abs(fighter1.x - fighter2.x) < punchDistance) {
+      if (Math.random() < fighter2.aggressiveness / 10) {
         fighter2.punch();
+      }
+    }
+  
+    if (Math.abs(fighter1.x - fighter2.x) < punchDistance * 2) {
+      if (fighter1.x < fighter2.x) {
+        fighter2.dx = -speed;
+      } else {
+        fighter2.dx = speed;
+      }
+    } else {
+      // This part makes the AI move back and forth randomly
+      if (Math.random() < 0.01) {  // 1% chance per frame
+        fighter2.dx = speed;  // Move right
+      } else if (Math.random() < 0.02) {  // 1% chance per frame
+        fighter2.dx = -speed;  // Move left
+      } else {
+        fighter2.dx = 0;  // Stop moving
       }
     }
   }

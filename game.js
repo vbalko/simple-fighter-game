@@ -1,12 +1,12 @@
 // Constants
 var canvas = document.getElementById('gameCanvas');
-var fighter1SVG = document.getElementById('fighter1SVG');
-var fighter2SVG = document.getElementById('fighter2SVG');
-var fighter1Image = new Image();
-fighter1Image.src = 'data:image/svg+xml,' + encodeURIComponent(fighter1SVG.outerHTML);
+// var fighter1SVG = document.getElementById('fighter1SVG');
+// var fighter2SVG = document.getElementById('fighter2SVG');
+// var fighter1Image = new Image();
+// fighter1Image.src = 'data:image/svg+xml,' + encodeURIComponent(fighter1SVG.outerHTML);
 
-var fighter2Image = new Image();
-fighter2Image.src = 'data:image/svg+xml,' + encodeURIComponent(fighter2SVG.outerHTML);
+// var fighter2Image = new Image();
+// fighter2Image.src = 'data:image/svg+xml,' + encodeURIComponent(fighter2SVG.outerHTML);
 
 var ctx = canvas.getContext('2d');
 var KEY_A = 65, KEY_D = 68, KEY_J = 74, KEY_L = 76, KEY_S = 83, KEY_K = 75, KEY_SPACE = 32;
@@ -23,10 +23,27 @@ function Fighter(x, color) {
   this.dx = 0;
   this.health = 100;
   this.punching = false;
+  this.punchResolved = true; //ensures, that punch will decrease health only once
+  this.punchAnimationDuration = 300; // Duration of punch animation in milliseconds
   this.dead = false;
   this.punch = function() {
-    this.punching = true;
-    setTimeout(() => this.punching = false, 500);  // Stop punching after 500 ms
+    if (!this.punching) {
+      this.punching = true;
+      this.punchResolved = false;
+
+      // Deduct health points
+      this.health -= 1;
+
+      setTimeout(() => {
+        this.punching = false;
+        this.punchResolved = true;
+      }, this.punchAnimationDuration);
+
+      if (this.health <= 0) {
+        this.dead = true;
+        gameOver = true;
+      }
+    }
   };
 }
 
@@ -56,9 +73,19 @@ window.addEventListener('keyup', function(e) {
 });
 
 // Game Functions
-function drawFighter(fighter, image) {
-  ctx.drawImage(image, fighter.x, fighter.y, fighter.width, fighter.height);
-}
+function drawFighter(fighter, svgNormal, svgPunch) {
+    var image = new Image();
+    
+    if(fighter.punching) {
+      image.src = 'data:image/svg+xml,' + encodeURIComponent(svgPunch.outerHTML);
+    } else {
+      image.src = 'data:image/svg+xml,' + encodeURIComponent(svgNormal.outerHTML);
+    }
+    
+    ctx.drawImage(image, fighter.x, fighter.y, fighter.width, fighter.height);
+  }
+  
+  
 
 function drawHealthBar(fighter) {
   ctx.fillStyle = 'green';
@@ -79,24 +106,26 @@ function updateFighterPosition(fighter, leftKey, rightKey) {
 }
 
 function checkForPunch(fighter1, fighter2) {
-  if (fighter1.punching && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
+  if (fighter1.punching && !fighter1.punchResolved && Math.abs(fighter1.x - fighter2.x) < punchDistance) {
     fighter2.x += 10;  // Move fighter2 to the right
     fighter2.health -= 10;  // Reduce fighter2's health
+    fighter1.punchResolved = true;
     if (fighter2.health <= 0) {
       fighter2.dead = true;
       gameOver = true;
     }
   }
-  if (fighter2.punching && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
+  if (fighter2.punching && !fighter2.punchResolved && Math.abs(fighter2.x - fighter1.x) < punchDistance) {
     fighter1.x -= 10;  // Move fighter1 to the left
     fighter1.health -= 10;  // Reduce fighter1's health
+    fighter2.punchResolved = true;
     if (fighter1.health <= 0) {
       fighter1.dead = true;
       gameOver = true;
     }
   }
-  fighter1.punching = false;
-  fighter2.punching = false;
+  //fighter1.punching = false;
+  //fighter2.punching = false;
 }
 
 function restartGame() {
@@ -122,39 +151,24 @@ function drawGameOver() {
 
 // Draw function
 function draw() {
-  // Clear the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw health bars and health points
-  drawHealthBar(fighter1);
-  drawHealthBar(fighter2);
-  drawHealthPoints(fighter1, 10, 30);
-  drawHealthPoints(fighter2, canvas.width - 50, 30);
-
-  // Animate the arms if the fighters are punching
-  if (fighter1.punching) {
-    var fighter1RightArm = document.getElementById('fighter1RightArm');
-    fighter1RightArm.setAttribute('x2', '60');  // Extend the arm
-  } else {
-    var fighter1RightArm = document.getElementById('fighter1RightArm');
-    fighter1RightArm.setAttribute('x2', '50');  // Retract the arm
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+    // Draw health bars and health points
+    drawHealthBar(fighter1);
+    drawHealthBar(fighter2);
+    drawHealthPoints(fighter1, 10, 30);
+    drawHealthPoints(fighter2, canvas.width - 50, 30);
+  
+    // Draw fighters
+    drawFighter(fighter1, fighter1SVGNormal, fighter1SVGPunch);
+    drawFighter(fighter2, fighter2SVGNormal, fighter2SVGPunch);
+  
+    // Draw game over message
+    if (gameOver) drawGameOver();
   }
-
-  if (fighter2.punching) {
-    var fighter2LeftArm = document.getElementById('fighter2LeftArm');
-    fighter2LeftArm.setAttribute('x2', '-10');  // Extend the arm
-  } else {
-    var fighter2LeftArm = document.getElementById('fighter2LeftArm');
-    fighter2LeftArm.setAttribute('x2', '0');  // Retract the arm
-  }
-
-  // Draw fighters
-  drawFighter(fighter1, fighter1Image);
-  drawFighter(fighter2, fighter2Image);
-
-  // Draw game over message
-  if (gameOver) drawGameOver();
-}
+  
+    
 
 // Update function
 function update() {
