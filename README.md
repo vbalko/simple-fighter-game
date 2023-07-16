@@ -4,7 +4,7 @@
 
 This game is a concept that explores the potential of AI, specifically ChatGPT, in game development. The idea was to see if an AI model could understand the requirements and create a whole game from scratch. The experiment was quite successful, and it showed that AI can indeed play a significant role in game development.
 
-For a more detailed account of the development process and the challenges encountered, please refer to the blog post: [Article Link](<link>)
+For a more detailed account of the development process and the challenges encountered, please refer to the blog post: [Article Link](https://medium.com/@vbalko/when-ai-crafts-games-a-peek-into-building-a-js-game-with-chatgpt-f37145a6cadc)
 
 ## Concept
 
