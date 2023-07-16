@@ -13,6 +13,11 @@ var KEY_A = 65, KEY_D = 68, KEY_J = 74, KEY_L = 76, KEY_S = 83, KEY_K = 75, KEY_
 var speed = 5;
 var punchDistance = 60;
 
+// Scroll the page down to make the game canvas fully visible
+window.onload = function() {
+  canvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
 // Fighter Class
 function Fighter(x, color) {
   this.x = x;
