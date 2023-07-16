@@ -74,8 +74,12 @@ window.addEventListener('keydown', function(e) {
     if (!gameOver) {
       if (e.keyCode === KEY_S) fighter1.punch();
       if (e.keyCode === KEY_K) fighter2.punch();
-      if (e.keyCode === KEY_SPACE) fighter1.jump(); // Add this line
+      if (e.keyCode === KEY_SPACE) {
+        e.preventDefault(); // Prevent default scrolling behavior
+        fighter1.jump(); // Add this line
+      }
     } else if (e.keyCode === KEY_SPACE) {
+      e.preventDefault(); // Prevent default scrolling behavior
       restartGame();
     }
   });
